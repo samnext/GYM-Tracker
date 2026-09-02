@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class WorkoutExerciseSchema(BaseModel):
+class WorkoutItemSchema(BaseModel):
     exercise_id: int
     sets: int
     reps: int
@@ -13,13 +13,13 @@ class WorkoutSchema(BaseModel):
     scheduled_at: str
     status: str
     notes: str
-    items: list[WorkoutExerciseSchema]
+    items: list[WorkoutItemSchema]
 
 class WorkoutCreateSchema(BaseModel):
     title: str
     scheduled_at: str
     notes: str
-    items: list[WorkoutExerciseSchema]
+    items: list[WorkoutItemSchema]
 
 
 class WorkoutUpdateSchema(BaseModel):
@@ -27,4 +27,4 @@ class WorkoutUpdateSchema(BaseModel):
     scheduled_at: str | None = None
     status: str | None = None
     notes: str | None = None
-    items: list[WorkoutExerciseSchema] | None = None
+    items: list[WorkoutItemSchema] | None = None
