@@ -5,13 +5,11 @@ from contextlib import asynccontextmanager
 
 from app.schemas.workout import *
 from app.schemas.exercise import *
-
 from app.db.session import get_db, engine
 
-from app.models.base import Base
 from app.models.base import *
 
-
+from app.api.routers.exercise import router as exercise_router
 
 
 
@@ -19,28 +17,18 @@ workouts_status = ('planned', 'done')
 tags = (['exercises'], ['workouts'])
 
 
-
-
-
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_: FastAPI):
     print('Lifespan is working')
     Base.metadata.create_all(bind=engine)
     yield
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(router=exercise_router, tags=['exercises'])
 
 
 
-def exercise_orm_to_schema(exercises_orm: ExerciseORM) -> ExerciseSchema:
-    return ExerciseSchema(
-        id=exercises_orm.id, 
-        name=exercises_orm.name,
-        description=exercises_orm.description,
-        category=exercises_orm.category,
-        muscle_group=exercises_orm.muscle_group
-        )
 
 def workout_item_to_schema(workout_item: WorkoutItemORM) -> WorkoutItemSchema:
     workout_item_schema = WorkoutItemSchema(
@@ -62,41 +50,6 @@ def workout_orm_to_schema(workout_orm: WorkoutORM) -> WorkoutSchema:
         items=[workout_item_to_schema(x) for x in workout_orm.workout]
     )
 
-@app.get('/exercises', tags=tags[0])
-def get_exercises_list(db: Session = Depends(get_db)) -> dict[str, int | list[ExerciseSchema]]:
-    exercises_schemas = [
-        exercise_orm_to_schema(exercise) for exercise in db.scalars(select(ExerciseORM)).all()
-    ]
-    return {
-        'total': len(exercises_schemas), 
-        'items': exercises_schemas
-    }
-
-@app.post('/exercises', 
-          status_code = status.HTTP_201_CREATED,
-          tags=tags[0]
-)
-def add_exercise(payload: ExerciseCreateSchema, db: Session = Depends(get_db)) -> ExerciseSchema:
-
-    new_exercise = ExerciseORM(
-        name = payload.name,
-        description = payload.description,
-        category = payload.category,
-        muscle_group = payload.muscle_group
-    )
-    db.add(new_exercise)
-    db.commit()
-        
-    return exercise_orm_to_schema(new_exercise)
-
-@app.get('/exercises/{id}', tags= tags[0])
-def get_exercise_by_id(id: int, db: Session = Depends(get_db)) -> ExerciseSchema:
-
-    exercise_orm = db.get(ExerciseORM, id)
-    if exercise_orm is not None:
-        return exercise_orm_to_schema(exercise_orm)
-    else:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
 #Workouts
