@@ -6,7 +6,8 @@ services:
     ports:
       - "8000:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: postgres:18-alpine
@@ -14,4 +15,9 @@ services:
       - "15432:5432"
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     

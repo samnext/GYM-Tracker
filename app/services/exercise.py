@@ -26,7 +26,7 @@ class ExerciseService():
         new_exercise = self.exercise_repository.create(
             name=exercise_to_create.name,
             description=exercise_to_create.description,
-            category=exercise_to_create.description,
+            category=exercise_to_create.category,
             muscle_group=exercise_to_create.muscle_group
         )
         self.db.commit()
@@ -38,4 +38,4 @@ class ExerciseService():
         if exercise is not None:
             return ExerciseSchema.model_validate(exercise)
         else:
-            raise ExerciseNotFound(f"Exercises with id={id} not found")
+            raise ExerciseNotFound(f"Exercises with id={exercise_id} not found")

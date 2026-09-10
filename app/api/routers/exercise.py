@@ -18,7 +18,7 @@ def create_exercise(
 ) -> ExerciseSchema:
     return exercise_service.create_exercise(exercise_to_create=payload)
 
-@router.get('/{task_id}')
+@router.get('/{exercise_id}')
 def get_exercise_by_id(
     exercise_id: str,
     exercise_service: ExerciseService = Depends(get_exercise_service)
