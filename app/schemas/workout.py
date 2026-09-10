@@ -1,13 +1,18 @@
 from pydantic import BaseModel
+from pydantic.config import ConfigDict
 
 class WorkoutItemSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
     exercise_id: int
     sets: int
     reps: int
-    weight: int
+    weight: float
     comment: str
     
 class WorkoutSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     scheduled_at: str
@@ -16,6 +21,8 @@ class WorkoutSchema(BaseModel):
     items: list[WorkoutItemSchema]
 
 class WorkoutCreateSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     title: str
     scheduled_at: str
     notes: str
@@ -23,6 +30,8 @@ class WorkoutCreateSchema(BaseModel):
 
 
 class WorkoutUpdateSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
     title: str | None = None
     scheduled_at: str | None = None
     status: str | None = None

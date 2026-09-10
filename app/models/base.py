@@ -13,7 +13,7 @@ class ExerciseORM(Base):
     category: Mapped[str]
     muscle_group: Mapped[str]
 
-    exercise: Mapped[list["WorkoutItemORM"]] = relationship(back_populates="exercise")
+    workout_items: Mapped[list["WorkoutItemORM"]] = relationship(back_populates="exercise")
 
 
 class WorkoutORM(Base):
@@ -25,7 +25,7 @@ class WorkoutORM(Base):
     status: Mapped[str]
     notes: Mapped[str]
 
-    workout: Mapped[list["WorkoutItemORM"]] = relationship(back_populates="workout", cascade="all, delete")
+    items: Mapped[list["WorkoutItemORM"]] = relationship(back_populates="parent_workout", cascade="all, delete")
 
 class WorkoutItemORM(Base):
     __tablename__ = "workouts_items"
@@ -37,8 +37,8 @@ class WorkoutItemORM(Base):
     weight: Mapped[float]
     comment: Mapped[str]
 
-    workout: Mapped["WorkoutORM"] = relationship(back_populates="workout")
-    exercise: Mapped["ExerciseORM"] = relationship(back_populates="exercise")
+    parent_workout: Mapped["WorkoutORM"] = relationship(back_populates="items")
+    exercise: Mapped["ExerciseORM"] = relationship(back_populates="workout_items")
 
 
 
