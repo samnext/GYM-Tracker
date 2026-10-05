@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-from app.models.base import ExerciseORM
+from app.models.base import *
 
 class ExerciseRepository():
     def __init__(self, db: Session):
