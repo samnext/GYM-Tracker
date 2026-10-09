@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     redis_db: str
     cache_ttl_seconds: int
     cache_exercises_key: str
+    cache_workouts_key: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
