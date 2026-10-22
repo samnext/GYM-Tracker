@@ -1,9 +1,9 @@
-from sqlalchemy.orm import Session
-from sqlalchemy import select
-
 from app.models.base import *
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-class ExerciseRepository():
+
+class ExerciseRepository:
     def __init__(self, db: Session):
         self.db = db
 
@@ -14,18 +14,14 @@ class ExerciseRepository():
         return exercises_orm
 
     def create(
-        self, 
-        name: str, 
-        description: str, 
-        category: str, 
-        muscle_group: str
+        self, name: str, description: str, category: str, muscle_group: str
     ) -> ExerciseORM:
 
         new_exercise = ExerciseORM(
-            name = name,
-            description = description,
-            category = category,
-            muscle_group = muscle_group
+            name=name,
+            description=description,
+            category=category,
+            muscle_group=muscle_group,
         )
         self.db.add(new_exercise)
         return new_exercise
@@ -34,5 +30,3 @@ class ExerciseRepository():
 
         exercise_orm = self.db.get(ExerciseORM, id)
         return exercise_orm
-
-    

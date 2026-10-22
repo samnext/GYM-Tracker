@@ -1,8 +1,10 @@
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import DeclarativeBase, Mapped, relationship, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
 
 class Base(DeclarativeBase):
     pass
+
 
 class ExerciseORM(Base):
     __tablename__ = "exercises"
@@ -13,7 +15,9 @@ class ExerciseORM(Base):
     category: Mapped[str]
     muscle_group: Mapped[str]
 
-    workout_items: Mapped[list["WorkoutItemORM"]] = relationship(back_populates="exercise")
+    workout_items: Mapped[list["WorkoutItemORM"]] = relationship(
+        back_populates="exercise"
+    )
 
 
 class WorkoutORM(Base):
@@ -25,13 +29,18 @@ class WorkoutORM(Base):
     status: Mapped[str]
     notes: Mapped[str]
 
-    items: Mapped[list["WorkoutItemORM"]] = relationship(back_populates="parent_workout", cascade="all, delete")
+    items: Mapped[list["WorkoutItemORM"]] = relationship(
+        back_populates="parent_workout", cascade="all, delete"
+    )
+
 
 class WorkoutItemORM(Base):
     __tablename__ = "workouts_items"
 
     workout_id: Mapped[int] = mapped_column(ForeignKey("workouts.id"), primary_key=True)
-    exercise_id: Mapped[int] = mapped_column(ForeignKey("exercises.id"), primary_key=True)
+    exercise_id: Mapped[int] = mapped_column(
+        ForeignKey("exercises.id"), primary_key=True
+    )
     sets: Mapped[int]
     reps: Mapped[int]
     weight: Mapped[float]
@@ -39,7 +48,3 @@ class WorkoutItemORM(Base):
 
     parent_workout: Mapped["WorkoutORM"] = relationship(back_populates="items")
     exercise: Mapped["ExerciseORM"] = relationship(back_populates="workout_items")
-
-
-
-
