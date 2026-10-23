@@ -2,8 +2,7 @@
 
 Backend-app for managing exercises and workouts.
 
-Project was build to learn FastAPI, SQLAlchemy, PostgreSQL, Docker, Redis, Pytest and the main concepts of building multi-layer backend-app 
-Проект разработан как учебный проект для изучения **FastAPI, SQLAlchemy, PostgreSQL, Docker, Redis и принципов построения многослойного backend-приложения**.
+Project was build to learn FastAPI, SQLAlchemy, PostgreSQL, Docker, Redis, Pytest and the main concepts of building multi-layer backend-app. 
 
 ## Stack
 
@@ -20,7 +19,6 @@ Project was build to learn FastAPI, SQLAlchemy, PostgreSQL, Docker, Redis, Pytes
 ## Architecture
 
 Multi-layer architecture was used in this project:
-В проекте используется многослойная архитектура:
 
 ```text
                 HTTP Request
