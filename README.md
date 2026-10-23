@@ -12,6 +12,7 @@ Project was build to learn FastAPI, SQLAlchemy, PostgreSQL, Docker, Redis, Pytes
 * **SQLAlchemy 2.0**
 * **PostgreSQL**
 * **Redis**
+* **Pytest**
 * **Docker**
 * **Docker Compose**
 * **Uvicorn**
@@ -60,6 +61,8 @@ Multi-layer architecture was used in this project:
 | `schemas/`      | Pydantic-schemas                                |
 | `repositories/` | Working with DB                                 |
 | `services/`     | Business-logic                                  |
+| `cache/`        | Caching                                         |
+| `tests/`        | Tests for app                                   |
 | `main.py`       | main file                                       |
 
 ## Launch
